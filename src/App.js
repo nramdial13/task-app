@@ -1,43 +1,48 @@
 import React, { Component } from "react";
+import Overview from "./Components/Overview";
+import uniqid from "uniqid";
 
-class Search extends Component {
+class App extends Component {
   constructor() {
     super();
-    this.state = { value: "" };
+    this.state = { task: { value: "", id: uniqid() }, tasks: [] };
 
     this.eventTaskHandler = this.eventTaskHandler.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({
+      task: { value: event.target.value, id: this.state.task.id },
+    });
   }
 
   eventTaskHandler(event) {
     event.preventDefault();
-    console.log(this.state.value);
+    this.setState({
+      tasks: this.state.tasks.concat(this.state.task),
+      task: { text: "", id: uniqid() },
+    });
   }
 
   render() {
-    // const tasksArray = [];
-    // let entry;
+    const { task, tasks } = this.state;
     return (
       <div>
         <form onSubmit={this.eventTaskHandler}>
-          <label>
-            Name:
-            <input
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-          </label>
-          <input type="submit" value="Submit" />
+          <label>Enter Information</label>
+          <input
+            type="text"
+            value={task.text}
+            onChange={this.handleChange}
+            id="taskInput"
+          ></input>
+          <button type="submit">Add Task</button>
         </form>
-        <button>Click to Enter</button>
+        <Overview tasks={tasks} />
       </div>
     );
   }
 }
 
-export default Search;
+export default App;
