@@ -1,25 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class Search extends Component {
+  constructor() {
+    super();
+    this.state = { value: "" };
+
+    this.eventTaskHandler = this.eventTaskHandler.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({ value: event.target.value });
+  }
+
+  eventTaskHandler(event) {
+    event.preventDefault();
+    console.log(this.state.value);
+  }
+
+  render() {
+    // const tasksArray = [];
+    // let entry;
+    return (
+      <div>
+        <form onSubmit={this.eventTaskHandler}>
+          <label>
+            Name:
+            <input
+              type="text"
+              value={this.state.value}
+              onChange={this.handleChange}
+            />
+          </label>
+          <input type="submit" value="Submit" />
+        </form>
+        <button>Click to Enter</button>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default Search;
